@@ -10,6 +10,8 @@ Source0:	http://gitorious.org/kde-zeitgeist/libqzeitgeist/archive-tarball/0.7#/%
 # Source0-md5:	487ca34d75e05be0ca5dc3aee7a08003
 BuildRequires:	QtDBus-devel
 BuildRequires:	cmake
+BuildRequires:	rpmbuild(macros) >= 1.600
+BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -32,22 +34,19 @@ sed -i -e 's#${CMAKE_INSTALL_PREFIX}/lib#${CMAKE_INSTALL_PREFIX}/%{_lib}#g' src/
 %build
 install -d build
 cd build
-
-%{cmake} ../
+%cmake ../
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
