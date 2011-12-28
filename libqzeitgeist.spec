@@ -1,22 +1,24 @@
 Summary:	Qt interface for Zeitgeist service
 Summary(pl.UTF-8):	Interfejs Qt do usługi Zeitgeist
 Name:		libqzeitgeist
-Version:	0.7
+Version:	0.8.0
 Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
-# git clone http://gitorious.org/kde-zeitgeist/libqzeitgeist
-Source0:	http://gitorious.org/kde-zeitgeist/libqzeitgeist/archive-tarball/0.7#/%{name}-%{version}.tar.gz
-# Source0-md5:	487ca34d75e05be0ca5dc3aee7a08003
-URL:		http://gitorious.org/kde-zeitgeist/libqzeitgeist
+Source0:	ftp://ftp.kde.org/pub/kde/stable/libqzeitgeist/0.8.0/src/%{name}-%{version}.tar.bz2
+# Source0-md5:	97bdea6a1865db7d5f29c93e3a492f24
+URL:		https://projects.kde.org/projects/kdesupport/libqzeitgeist/
 BuildRequires:	QtCore-devel >= 4.7.0
 BuildRequires:	QtDBus-devel >= 4.7.0
+BuildRequires:	QtDeclarative-devel >= 4.7.0
+BuildRequires:	QtGui-devel >= 4.7.0
 BuildRequires:	QtTest-devel >= 4.7.0
 BuildRequires:	cmake >= 2.6
+BuildRequires:	python-zeitgeist >= 0.8
 BuildRequires:	rpmbuild(macros) >= 1.603
-BuildRequires:	sed >= 4.0
 Requires:	QtCore >= 4.7.0
 Requires:	QtDBus >= 4.7.0
+Requires:	QtGui >= 4.7.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -39,16 +41,26 @@ Development files for Qt Zeitgeist library.
 %description devel -l pl.UTF-8
 Pliki programistyczne biblioteki Qt Zeitgeist.
 
-%prep
-%setup -q -n kde-zeitgeist-%{name}
+%package -n QtDeclarative-plugin-qzeitgeist
+Summary:	Qt Zeitgeist plugin for QtDeclarative
+Summary(pl.UTF-8):	Wtyczka Qt Zeitgeist dla QtDeclarative
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+Requires:	QtDeclarative >= 4.7.0
 
-sed -i -e 's#lib/pkgconfig#%{_lib}/pkgconfig#g' CMakeLists.txt
-sed -i -e 's#${CMAKE_INSTALL_PREFIX}/lib#${CMAKE_INSTALL_PREFIX}/%{_lib}#g' src/CMakeLists.txt
+%description -n QtDeclarative-plugin-qzeitgeist
+Qt Zeitgeist plugin for QtDeclarative.
+
+%description -n QtDeclarative-plugin-qzeitgeist -l pl.UTF-8
+Wtyczka Qt Zeitgeist dla QtDeclarative.
+
+%prep
+%setup -q
 
 %build
 install -d build
 cd build
-%cmake ../
+%cmake ..
 %{__make}
 
 %install
@@ -64,12 +76,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libqzeitgeist.so.*.*
-%attr(755,root,root) %ghost %{_libdir}/libqzeitgeist.so.0
+%attr(755,root,root) %{_libdir}/libqzeitgeist.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libqzeitgeist.so.1
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libqzeitgeist.so
-%{_includedir}/QtZeitgeist
-%{_pkgconfigdir}/QtZeitgeist.pc
-%{_datadir}/qzeitgeist
+%{_includedir}/QZeitgeist
+%{_pkgconfigdir}/QZeitgeist.pc
+%{_libdir}/cmake/QZeitgeist
+
+%files -n QtDeclarative-plugin-qzeitgeist
+%defattr(644,root,root,755)
+%dir %{_libdir}/qt4/imports/org
+%dir %{_libdir}/qt4/imports/org/gnome
+%dir %{_libdir}/qt4/imports/org/gnome/zeitgeist
+%attr(755,root,root) %{_libdir}/qt4/imports/org/gnome/zeitgeist/libQZeitgeistDeclarativePlugin.so
+%{_libdir}/qt4/imports/org/gnome/zeitgeist/qmldir
