@@ -13,8 +13,11 @@ BuildRequires:	QtDBus-devel >= 4.7.0
 BuildRequires:	QtDeclarative-devel >= 4.7.0
 BuildRequires:	QtGui-devel >= 4.7.0
 BuildRequires:	QtTest-devel >= 4.7.0
+BuildRequires:	automoc4 >= 0.9.88
 BuildRequires:	cmake >= 2.6
 BuildRequires:	python-zeitgeist >= 0.8
+BuildRequires:	qt4-build
+BuildRequires:	qt4-qmake
 BuildRequires:	rpmbuild(macros) >= 1.603
 Requires:	QtCore >= 4.7.0
 Requires:	QtDBus >= 4.7.0
