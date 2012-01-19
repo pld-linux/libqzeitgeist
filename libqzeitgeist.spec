@@ -2,7 +2,7 @@ Summary:	Qt interface for Zeitgeist service
 Summary(pl.UTF-8):	Interfejs Qt do usługi Zeitgeist
 Name:		libqzeitgeist
 Version:	0.8.0
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	ftp://ftp.kde.org/pub/kde/stable/libqzeitgeist/0.8.0/src/%{name}-%{version}.tar.bz2
