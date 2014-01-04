@@ -2,7 +2,7 @@ Summary:	Qt interface for Zeitgeist service
 Summary(pl.UTF-8):	Interfejs Qt do usługi Zeitgeist
 Name:		libqzeitgeist
 Version:	0.8.0
-Release:	2
+Release:	3
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	ftp://ftp.kde.org/pub/kde/stable/libqzeitgeist/0.8.0/src/%{name}-%{version}.tar.bz2
@@ -91,7 +91,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n QtDeclarative-plugin-qzeitgeist
 %defattr(644,root,root,755)
-%dir %{_libdir}/qt4/imports/org
 %dir %{_libdir}/qt4/imports/org/gnome
 %dir %{_libdir}/qt4/imports/org/gnome/zeitgeist
 %attr(755,root,root) %{_libdir}/qt4/imports/org/gnome/zeitgeist/libQZeitgeistDeclarativePlugin.so
