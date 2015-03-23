@@ -1,0 +1,71 @@
+--- libqzeitgeist-0.8.0/declarative/CMakeLists.txt.orig	2011-10-27 16:08:58.000000000 +0200
++++ libqzeitgeist-0.8.0/declarative/CMakeLists.txt	2015-03-23 15:57:47.705048993 +0100
+@@ -1,8 +1,9 @@
+-find_package(Automoc4)
+ include(${QT_USE_FILE})
+ 
+ add_definitions(${QT_DEFINITIONS})
+ 
++set(CMAKE_AUTOMOC TRUE)
++
+ set(declarative_SRCS
+     declarativeevent.cpp
+     declarativelogmodel.cpp
+@@ -12,7 +13,7 @@ set(declarative_SRCS
+ 
+ include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/../src/)
+ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../src/)
+-automoc4_add_library(QZeitgeistDeclarativePlugin MODULE ${declarative_SRCS})
++add_library(QZeitgeistDeclarativePlugin MODULE ${declarative_SRCS})
+ 
+ target_link_libraries(QZeitgeistDeclarativePlugin ${QT_LIBRARIES} qzeitgeist)
+ 
+--- libqzeitgeist-0.8.0/declarative/plugin.cpp.orig	2011-10-27 16:08:58.000000000 +0200
++++ libqzeitgeist-0.8.0/declarative/plugin.cpp	2015-03-23 17:06:09.838210172 +0100
+@@ -43,4 +43,6 @@ void Plugin::registerTypes(const char *u
+ } // namespace Declarative
+ } // namespace QZeitgeist
+ 
++Q_EXPORT_PLUGIN2(qzeitgeistdeclarativeplugin, QZeitgeist::Declarative::Plugin);
++
+ #include "plugin.moc"
+--- libqzeitgeist-0.8.0/declarative/plugin.h.orig	2011-10-27 16:08:58.000000000 +0200
++++ libqzeitgeist-0.8.0/declarative/plugin.h	2015-03-23 17:06:10.558210145 +0100
+@@ -39,6 +39,4 @@ public:
+ } // namespace Declarative
+ } // namespace QZeitgeist
+ 
+-Q_EXPORT_PLUGIN2(qzeitgeistdeclarativeplugin, QZeitgeist::Declarative::Plugin);
+-
+ #endif // PLUGIN_H
+--- libqzeitgeist-0.8.0/src/CMakeLists.txt.orig	2011-10-27 16:08:58.000000000 +0200
++++ libqzeitgeist-0.8.0/src/CMakeLists.txt	2015-03-23 15:56:44.075051663 +0100
+@@ -4,7 +4,7 @@ if (__HAVE_GCC_VISIBILITY AND NOT WIN32)
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
+ endif (__HAVE_GCC_VISIBILITY AND NOT WIN32)
+ 
+-find_package(Automoc4)
++set(CMAKE_AUTOMOC TRUE)
+ include(${QT_USE_FILE})
+ include(QZeitgeistMacros)
+ 
+@@ -59,7 +59,7 @@ zg_add_dbus_interface(qzeitgeist_SRCS db
+ 
+ qt4_add_dbus_adaptor(qzeitgeist_SRCS dbus-xml/org.gnome.zeitgeist.Monitor.xml monitor_p.h QZeitgeist::MonitorPrivate)
+ 
+-automoc4_add_library(qzeitgeist SHARED ${qzeitgeist_SRCS} interpretation.h manifestation.h)
++add_library(qzeitgeist SHARED ${qzeitgeist_SRCS} interpretation.h manifestation.h)
+ 
+ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/interpretation.h
+    COMMAND ${CMAKE_SOURCE_DIR}/scripts/onto2cpp.py -o Interpretation > ${CMAKE_CURRENT_BINARY_DIR}/interpretation.h
+--- libqzeitgeist-0.8.0/CMakeLists.txt.orig	2011-10-27 16:08:58.000000000 +0200
++++ libqzeitgeist-0.8.0/CMakeLists.txt	2015-03-23 17:27:41.688155960 +0100
+@@ -6,7 +6,7 @@
+ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
+ set(LIB_SUFFIX "" CACHE STRING "Define suffix of directory name (32/64)" )
+ 
+-find_package(Qt4 4.7.0 COMPONENTS QtCore QtDBus QtTest QtDeclarative REQUIRED)
++find_package(Qt4 4.7.0 COMPONENTS QtCore QtDBus QtGui QtTest QtDeclarative REQUIRED)
+ 
+ 
+ set(QZEITGEIST_VERSION_MAJOR 0)
